@@ -10,5 +10,6 @@ namespace Fruit.Project.Areas.Manage.ViewModels.ProductVMs
         [Required]
         public string SubTitle { get; set; }
         public IFormFile? Image { get; set; }
+    
     }
 }

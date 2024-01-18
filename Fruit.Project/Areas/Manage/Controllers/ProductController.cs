@@ -1,5 +1,6 @@
 ﻿using Fruit.Project.Areas.Manage.ViewModels.ProductVMs;
 using Fruit.Project.DAL;
+using Fruit.Project.Helpers;
 using Fruit.Project.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,10 +12,12 @@ namespace Fruit.Project.Areas.Manage.Controllers
     public class ProductController : Controller
     {
         private readonly AppDbContext _db;
+        private readonly IWebHostEnvironment _env;
 
-        public ProductController(AppDbContext db)
+        public ProductController(AppDbContext db, IWebHostEnvironment env)
         {
             _db = db;
+            _env = env;
         }
         public async Task<IActionResult> Index()
         {
@@ -35,7 +38,8 @@ namespace Fruit.Project.Areas.Manage.Controllers
             Product product = new Product()
             {
                 Title = vm.Title,
-                SubTitle = vm.SubTitle
+                SubTitle = vm.SubTitle,
+                ImgUrl = vm.Image.Upload(_env.WebRootPath, @"\Upload\Product\")
             };
             await _db.Products.AddAsync(product);
             await _db.SaveChangesAsync();
@@ -48,7 +52,8 @@ namespace Fruit.Project.Areas.Manage.Controllers
             {
                 Id = product.Id,
                 Title=product.Title,
-                SubTitle=product.SubTitle
+                SubTitle=product.SubTitle,
+          
 
             };
             return View(updated );
@@ -60,11 +65,18 @@ namespace Fruit.Project.Areas.Manage.Controllers
             {
                 return View();
             }
+            var product = await _db.Products.FirstOrDefaultAsync(x => x.Id == vm.Id);
+            if (product == null) { throw new Exception("Product isn't null"); }
+            if (vm.Image != null)
+            {
+                product.ImgUrl = vm.Image.Upload(_env.WebRootPath, @"\Upload\Product\");
+            }
+
             if(vm.Id<= 0) { throw new Exception("Id isn't Zero or negative."); }
-            var product = await _db.Products.FirstOrDefaultAsync(x=>x.Id==vm.Id);
-            if(product == null) { throw new Exception("Product isn't null"); }
+        
             product.Title = vm.Title;
             product.SubTitle = vm.SubTitle;
+         
             await _db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
