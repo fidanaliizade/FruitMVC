@@ -1,4 +1,5 @@
-﻿using Fruit.Project.Models;
+﻿using Fruit.Project.Helpers;
+using Fruit.Project.Models;
 using Fruit.Project.ViewModels.AccountVMs;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -80,6 +81,23 @@ namespace Fruit.Project.Controllers
         {
             await signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
+        }
+
+
+
+        public async Task<IActionResult> CreateRole()
+        {
+            foreach (UserRole item in Enum.GetValues(typeof(UserRole)))
+            {
+                if (await roleManager.FindByNameAsync(item.ToString()) == null)
+                {
+                    await roleManager.CreateAsync(new IdentityRole()
+                    {
+                        Name = item.ToString(),
+                    });
+                }
+            }
+            return RedirectToAction(nameof(Index), "Home");
         }
     }
 }
