@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Fruit.Project")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b0d225b884f2efa198b06300c1582919f81d5e7e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f6b540e71492a833414f2a8c1da9cd8a737ab3e0")]
 [assembly: System.Reflection.AssemblyProductAttribute("Fruit.Project")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Fruit.Project")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
